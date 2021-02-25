@@ -4,6 +4,7 @@ var fs = require("fs");
 var app = express();
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.json())
 
 
 app.get("/", function(req, res){
@@ -53,6 +54,27 @@ app.post("/adduser", function(req, res){
 app.get("/ajaxmessage", function(req, res){
     res.sendFile(__dirname + "/public/ajaxmessage.html");
 });
+
+app.post("/ajaxmessage", function(req, res){
+    var data = require("./public/guestbook.json");
+
+    data.push({
+        "username": req.body.username,
+        "country": req.body.country,
+        "date": new Date(),
+        "message": req.body.message
+    });
+    console.log(data)
+    console.log(req.body)
+    
+    var jsonStr = JSON.stringify(data);
+
+    fs.writeFileSync(__dirname + "/public/guestbook.json", jsonStr);
+        
+        
+    
+    res.sendFile(__dirname + "/public/guestbook.json")
+})
 
 app.get("*", function(req,res){
     res.send("Can't find the requested page", 404)

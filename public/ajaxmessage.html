@@ -12,54 +12,55 @@
         Name <input id="name" type="text" name="username">
         Country <input id="country" type="text" name="country">
         Message <input id="message" type="text" name="message">
-        <input id="send" type="submit" value="Submit">
+        <input id="send" type="button" value="Submit">
     </form>
 
     <table id="gbdata"></table>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        var $name = $("#name")
-        var $country = $("#country")
-        var $message = $("#message")
-        var date = new Date();
 
-        $("#send").submit(function () {
+        $("#send").click(function () {
+            var name = $("#name").val();
+            var country = $("#country").val();
+            var message = $("#message").val();
+            var date = new Date();
+            console.log(name)
+
             var sendingData = {
-                username: $name.val(),
-                country: $country.val(),
-                date,
-                message: $message.val()
+                "username": name,
+                "country": country,
+
+                "message": message
             };
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost:3000/public/guestbook.json',
+                url: 'http://localhost:3000/ajaxmessage',
                 data: sendingData,
                 success: function (postData) {
-                    $.ajax({
-                        url: 'http://localhost:3000/public/guestbook.json',
-                        type: 'get',
-                        dataType: 'JSON',
-                        success: function (response) {
-                            var length = response.length;
-                            for (var i = 0; i < length; i++) {
-                                var uname = response[i].username;
-                                var ctry = response[i].country
-                                var msg = response[i].message
-
+                    {
+                        for (var i = 0; i < postData.length; i++) {
+                                var username = postData[i].username;
+                                var country = postData[i].country
+                                var message = postData[i].message
+                                var date = postData[i].date
                                 var tr_str = "<tr>" +
                                     "<td align='center'>" + username + "</td>" +
                                     "<td align='center'>" + country + "</td>" +
                                     "<td align='center'>" + date + "</td>" +
                                     "<td align='center'>" + message + "</td>" +
                                     "</tr>"
-                                $("#gbdata").append(tr_str);
-                            }
-                        }
-                    })
+                                    console.log(username)
+                                    $("#gbdata").append(tr_str);
+                                }
+
+                        
+                    }
                 }
-            })
+            
         })
-    
+    })
+
+
     </script>
 </body>
 
