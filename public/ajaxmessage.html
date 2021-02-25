@@ -39,26 +39,26 @@
                 success: function (postData) {
                     {
                         for (var i = 0; i < postData.length; i++) {
-                                var username = postData[i].username;
-                                var country = postData[i].country
-                                var message = postData[i].message
-                                var date = postData[i].date
-                                var tr_str = "<tr>" +
-                                    "<td align='center'>" + username + "</td>" +
-                                    "<td align='center'>" + country + "</td>" +
-                                    "<td align='center'>" + date + "</td>" +
-                                    "<td align='center'>" + message + "</td>" +
-                                    "</tr>"
-                                    console.log(username)
-                                    $("#gbdata").append(tr_str);
-                                }
+                            var username = postData[i].username;
+                            var country = postData[i].country
+                            var message = postData[i].message
+                            var date = postData[i].date
+                            var tr_str = "<tr>" +
+                                "<td align='center'>" + username + "</td>" +
+                                "<td align='center'>" + country + "</td>" +
+                                "<td align='center'>" + date + "</td>" +
+                                "<td align='center'>" + message + "</td>" +
+                                "</tr>"
+                            console.log(username)
+                            $("#gbdata").append(tr_str);
+                        }
 
-                        
+
                     }
                 }
-            
+
+            })
         })
-    })
 
 
     </script>
