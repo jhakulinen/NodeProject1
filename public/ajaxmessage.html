@@ -3,65 +3,129 @@
 
 <head>
     <meta charset="utf-8">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        .navbar {
+            margin-bottom: 0;
+            border-radius: 0;
+        }
+    </style>
 </head>
 
-<body>
-    <h1>Add users</h1>
-    <form id="myForm">
-        Name <input id="name" type="text" name="username">
-        Country <input id="country" type="text" name="country">
-        Message <input id="message" type="text" name="message">
-        <input id="send" type="button" value="Submit">
-    </form>
+<body class="h-100">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="http://localhost:3000/">Home</a></li>
+                    <li><a href="http://localhost:3000/ajaxmessage">Ajax Message</a></li>
+                    <li><a href="http://localhost:3000/newmessage">New Message</a></li>
+                    <li><a href="http://localhost:3000/guestbook">Guestbook</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container h-100">
+        <div class="row h-100 justify-content-center align-items-center">
+            <div class="col-10 col-md-8 col-lg-6">
+                <form class="form-example" id="myForm">
+                    <h1>Add users</h1>
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input class="form-control name" id="name" type="text" placeholder="Name..." name="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country:</label>
+                        <input class="form-control country" id="country" type="text" placeholder="Country..."
+                            name="country">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message:</label>
+                        <input class="form-control message" id="message" type="text" placeholder="Message..."
+                            name="message">
+                    </div>
+                    <input id="send" type="button" value="Submit">
+                </form>
 
-    <table id="gbdata"></table>
+                <table class="table table-striped" id="gbdata" style="display: none; margin-top: 50px;">
+                    <tr>
+                        <th style="text-align: center;">Name</th>
+                        <th style="text-align: center;">Country</th>
+                        <th style="text-align: center;">Date</th>
+                        <th style="text-align: center;">Message</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
 
         $("#send").click(function () {
+
+
             var name = $("#name").val();
             var country = $("#country").val();
             var message = $("#message").val();
             var date = new Date();
-            console.log(name)
 
-            var sendingData = {
-                "username": name,
-                "country": country,
+            if (name == "" || country == "" || message == "") {
+                alert("Empy fields are not allowed!")
+            } else {
 
-                "message": message
-            };
-            $.ajax({
-                type: 'POST',
-                url: 'http://localhost:3000/ajaxmessage',
-                data: sendingData,
-                success: function (postData) {
-                    {
-                        for (var i = 0; i < postData.length; i++) {
-                            var username = postData[i].username;
-                            var country = postData[i].country
-                            var message = postData[i].message
-                            var date = postData[i].date
-                            var tr_str = "<tr>" +
-                                "<td align='center'>" + username + "</td>" +
-                                "<td align='center'>" + country + "</td>" +
-                                "<td align='center'>" + date + "</td>" +
-                                "<td align='center'>" + message + "</td>" +
-                                "</tr>"
-                            console.log(username)
-                            $("#gbdata").append(tr_str);
+                $("#gbdata").show();
+                var sendingData = {
+                    "username": name,
+                    "country": country,
+
+                    "message": message
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:3000/ajaxmessage',
+                    data: sendingData,
+                    success: function (postData) {
+                        {
+                            for (var i = 0; i < postData.length; i++) {
+                                var username = postData[i].username;
+                                var country = postData[i].country
+                                var message = postData[i].message
+                                var date = postData[i].date
+                                var tr_str = "<tr>" +
+                                    "<td align='center'>" + username + "</td>" +
+                                    "<td align='center'>" + country + "</td>" +
+                                    "<td align='center'>" + date + "</td>" +
+                                    "<td align='center'>" + message + "</td>" +
+                                    "</tr>"
+                                $("#gbdata").append(tr_str);
+                            }
+
+
                         }
-
-
                     }
-                }
 
-            })
+                })
+            }
         })
 
 
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
