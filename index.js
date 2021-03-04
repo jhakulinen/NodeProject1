@@ -16,7 +16,7 @@ app.get("/", function (req, res) {
 // Tein tämän kohdan alusta asti hieman väärin, joten visuaalinen muokkaaminen Bootstrapin avulla jäi pois, koska en tajunnut tehdä html-sivua, johon taulukko tulostuu. //
 app.get("/guestbook", function (req, res) {
     var json = require(__dirname + "/public/guestbook.json");
-    var bootstrap = "<link rel="+'stylesheet'+" href=https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css</link>"
+    var bootstrap = "<link rel="+'stylesheet'+" href=https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css></link>"
     var results = bootstrap + "<table class='table table-striped'>";
 
     for (var i = 0; i < json.length; i++) {
