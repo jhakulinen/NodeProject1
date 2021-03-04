@@ -17,7 +17,7 @@ app.get("/", function (req, res) {
 app.get("/guestbook", function (req, res) {
     var json = require(__dirname + "/public/guestbook.json");
     var bootstrap = "<link rel="+'stylesheet'+" href=https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css></link>"
-    var results = bootstrap + "<table class='table table-striped'>";
+    var results = bootstrap + "<table class='table table-striped'><tr><th>Name</th><th>Country</th><th>Date</th><th>Message</th></tr>";
 
     for (var i = 0; i < json.length; i++) {
         results +=
@@ -27,7 +27,7 @@ app.get("/guestbook", function (req, res) {
             "<td>" + json[i].date + "</td>" +
             "<td>" + json[i].message + "</td>" +
             "</tr>";
-    }
+    } results += "</table>"
     res.send(results);
 });
 // Luodaa neitti "/newmessage" sivulle, jossa voi lähettää uuden viestin vieraskirjaan. // 
